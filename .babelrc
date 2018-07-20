@@ -1,6 +1,13 @@
 {
   "presets": [
     "env",
-    "stage-3"
-  ]
+    "stage-3",
+    "flow"
+  ],
+  "env": {
+    "debug": {
+      "sourceMap": "inline",
+      "retainLines": true
+    }
+  }
 }
