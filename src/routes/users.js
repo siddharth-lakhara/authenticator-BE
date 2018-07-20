@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-// import Models from '../../models';
 import createToken from '../utils/createToken';
 import hashPassword from '../utils/hashPassword';
 
@@ -8,17 +7,19 @@ const Models = require('../../models');
 export default [{
   method: 'POST',
   path: '/login',
-  handler: async (req, reply) => {
+  handler: (req, reply) => {
     const { userName, password } = req.payload;
-    const userDetails = await Models.users.findOne({ where: userName });
-    const isCorrect = bcrypt.compareSync(password, userDetails.password);
-    if (isCorrect) {
-      const data = {
-        token: createToken(userDetails),
-      };
-      return reply.response(data).code(200);
-    }
-    return reply.response('Invalid Username or Password!').code(400);
+    return Models.users.findOne({ where: { user_name: userName } })
+      .then((userDetails) => {
+        const isCorrect = bcrypt.compareSync(password, userDetails.password);
+        if (isCorrect) {
+          const data = {
+            token: createToken(userDetails),
+          };
+          return reply.response(data).code(200);
+        }
+        return reply.response('Invalid Username or Password!').code(400);
+      });
   },
 }, {
   method: 'POST',
