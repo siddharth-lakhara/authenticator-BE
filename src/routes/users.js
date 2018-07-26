@@ -31,11 +31,6 @@ export default [{
     const {
       firstName, lastName, email, userName, password,
     } = JSON.parse(req.payload);
-    console.log(firstName);
-    console.log(lastName);
-    console.log(email);
-    console.log(userName);
-    console.log(password);
     return hashPassword(password).then((passwordHash) => {
       const insertIntoDB = {
         first_name: firstName,
