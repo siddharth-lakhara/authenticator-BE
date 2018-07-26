@@ -8,17 +8,20 @@ export default [{
   method: 'POST',
   path: '/login',
   handler: (req, reply) => {
-    const { userName, password } = req.payload;
+    const { userName, password } = JSON.parse(req.payload);
     return Models.users.findOne({ where: { user_name: userName } })
       .then((userDetails) => {
-        const isCorrect = bcrypt.compareSync(password, userDetails.password);
-        if (isCorrect) {
-          const data = {
-            token: createToken(userDetails),
-          };
-          return reply.response(data).code(200);
+        if (userDetails) {
+          const isCorrect = bcrypt.compareSync(password, userDetails.password);
+          if (isCorrect) {
+            const data = {
+              token: createToken(userDetails),
+            };
+            return reply.response(data).code(200);
+          }
+          return reply.response({ message: 'Invalid Username or Password!' }).code(400);
         }
-        return reply.response('Invalid Username or Password!').code(400);
+        return reply.response({ message: 'Invalid Username or Password!' }).code(400);
       });
   },
 }, {
