@@ -30,7 +30,12 @@ export default [{
   handler: (req, h) => {
     const {
       firstName, lastName, email, userName, password,
-    } = req.payload;
+    } = JSON.parse(req.payload);
+    console.log(firstName);
+    console.log(lastName);
+    console.log(email);
+    console.log(userName);
+    console.log(password);
     return hashPassword(password).then((passwordHash) => {
       const insertIntoDB = {
         first_name: firstName,
@@ -49,10 +54,10 @@ export default [{
       }).then((userExists) => {
         if (userExists.length === 0) {
           return Models.users.create(insertIntoDB)
-            .then(() => h.response('user successfully registered'));
+            .then(() => h.response({ message: 'user successfully registered' }));
         }
         const responseString = (userExists[0].user_name === userName) ? 'User Name already taken' : 'Email already registered';
-        return h.response(responseString).code(400);
+        return h.response({ message: responseString }).code(400);
       });
     });
   },
