@@ -7,6 +7,9 @@ const Models = require('../../models');
 export default [{
   method: 'POST',
   path: '/login',
+  config: {
+    auth: false,
+  },
   handler: (req, reply) => {
     const { userName, password } = JSON.parse(req.payload);
     return Models.users.findOne({ where: { user_name: userName } })
@@ -27,6 +30,9 @@ export default [{
 }, {
   method: 'POST',
   path: '/register',
+  config: {
+    auth: false,
+  },
   handler: (req, h) => {
     const {
       firstName, lastName, email, userName, password,
