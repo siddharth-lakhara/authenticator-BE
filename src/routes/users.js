@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import Joi from 'joi';
 import createToken from '../utils/createToken';
 import hashPassword from '../utils/hashPassword';
 
@@ -9,9 +10,15 @@ export default [{
   path: '/login',
   config: {
     auth: false,
+    validate: {
+      payload: Joi.object({
+        userName: Joi.string().min(1).max(10).required(),
+        password: Joi.string().min(1).required(),
+      }),
+    },
   },
   handler: (req, reply) => {
-    const { userName, password } = JSON.parse(req.payload);
+    const { userName, password } = req.payload;
     return Models.users.findOne({ where: { user_name: userName } })
       .then((userDetails) => {
         if (userDetails) {
@@ -32,11 +39,20 @@ export default [{
   path: '/register',
   config: {
     auth: false,
+    validate: {
+      payload: Joi.object({
+        firstName: Joi.string().min(1).max(10),
+        lastName: Joi.string().min(1).max(10),
+        email: Joi.string().email().required().required(),
+        userName: Joi.string().min(1).max(10).required(),
+        password: Joi.string().min(1).required(),
+      }),
+    },
   },
   handler: (req, h) => {
     const {
       firstName, lastName, email, userName, password,
-    } = JSON.parse(req.payload);
+    } = req.payload;
     return hashPassword(password).then((passwordHash) => {
       const insertIntoDB = {
         first_name: firstName,

@@ -14,6 +14,7 @@
     "bcrypt": "^3.0.0",
     "hapi": "^17.5.2",
     "hapi-auth-jwt2": "^8.1.0",
+    "joi": "^13.4.0",
     "jsonwebtoken": "^8.3.0",
     "pg": "^7.4.3",
     "sequelize": "^4.38.0",
