@@ -1,5 +1,6 @@
 import ping from './ping';
-import users from './users';
+import login from './login';
+import register from './register';
 import info from './info';
 
-export default [].concat(ping, users, info);
+export default [].concat(ping, login, register, info);
