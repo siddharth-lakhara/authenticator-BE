@@ -7,6 +7,14 @@ Authenticator is a login register page built on Hapi.JS and ReactJS. The authent
 - FE - ReactJS
 - Authentication: JWT
 
+## Usage
+```
+git clone https://github.com/siddharth-lakhara/authenticator-BE.git
+npm install
+node_modules/.bin/sequelize db:create
+node_modules/.bin/sequelize db:migrate
+```
+
 ## Relevant Links
 
 Blog - [Part 1](https://medium.com/@siddharth.lakhara/using-jwt-to-build-login-register-form-on-hapijs-and-reactjs-part-1-a3c103b86956) <br />
